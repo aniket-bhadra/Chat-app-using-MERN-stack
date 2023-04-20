@@ -5,6 +5,10 @@ const colors = require("colors");
 const { chats } = require("./data/data");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
+const {
+  notFoundMiddleware,
+  errorHandlerMiddleware,
+} = require("./middleware/errorsMiddleware");
 
 dotenv.config();
 
@@ -18,6 +22,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", userRoutes);
+
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, console.log(`Server started on PORT ${PORT}`.yellow.bold));

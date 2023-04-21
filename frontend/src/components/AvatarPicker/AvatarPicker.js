@@ -12,6 +12,7 @@ import {
   Grid,
   GridItem,
   Image,
+  useToast,
 } from "@chakra-ui/react";
 
 const avatars = [
@@ -56,23 +57,43 @@ const funLines = [
   "You're bringing your A-game with that avatar!",
   "That avatar was made for you!",
 ];
-
-function AvatarPicker() {
+let checkingAvatar = null;
+function AvatarPicker(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState("");
+  const [funStrings, setFunStrings] = useState("");
+  const toast = useToast();
 
   const handleOpen = () => setIsOpen(true);
-  const handleClose = () => setIsOpen(false);
+  const handleClose = () => {
+    setIsOpen(false);
+    if (!checkingAvatar) {
+      toast({
+        title: "Please Select an Avatar!",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
 
   //generating fun lines
   const getMeRandomLines = (arrayOfLines) => {
     const randomIndex = Math.floor(Math.random() * arrayOfLines.length);
     return arrayOfLines[randomIndex];
   };
-  let randomStrings = getMeRandomLines(funLines);
 
   const handleAvatarClick = (avatar) => {
+    let randomStrings = getMeRandomLines(funLines);
+    if (avatar !== selectedAvatar) {
+      setFunStrings(randomStrings);
+    } else {
+      setFunStrings("Looks like you're sticking with a classic!");
+    }
     setSelectedAvatar(avatar);
+    props.avatarHandler(avatar);
+    checkingAvatar = "success";
     handleClose();
   };
 
@@ -86,7 +107,7 @@ function AvatarPicker() {
 
       {selectedAvatar && (
         <div>
-          <p style={{ textAlign: "center" }}>{randomStrings}</p>
+          <p style={{ textAlign: "center" }}>{funStrings}</p>
           <Box display="flex" alignItems="center" justifyContent="center">
             <Avatar name="Avatar" src={selectedAvatar} size="xl" />
           </Box>
@@ -99,7 +120,7 @@ function AvatarPicker() {
           <ModalHeader>Select your avatar</ModalHeader>
           <ModalCloseButton />
           <ModalBody
-            maxH="400px"
+            maxH="200px"
             overflowY="scroll"
             sx={{
               "&::-webkit-scrollbar": {

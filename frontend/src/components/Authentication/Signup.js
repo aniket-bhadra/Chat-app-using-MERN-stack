@@ -7,7 +7,10 @@ import {
   InputGroup,
   InputRightElement,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
+
+import AvatarPicker from "../AvatarPicker/AvatarPicker";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -15,12 +18,16 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [pic, setPic] = useState("");
+  const [pic, setPic] = useState();
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   const passwordHiddingHandler = () =>
     setShow((prevShowValue) => !prevShowValue);
 
-  const postDetails = (pics) => {};
+  const avatarHandler = (avatar) => {
+    setPic(avatar);
+  };
 
   const onSubmitHandler = () => {};
 
@@ -76,16 +83,7 @@ const Signup = () => {
       </FormControl>
 
       <FormControl id="pic">
-        <FormLabel> Let's see your best shot! </FormLabel>
-        <Input
-          type="file"
-          p={1.5}
-          accept="image/*"
-          onChange={(e) => {
-            // console.log(e.target.files);
-            postDetails(e.target.files[0]);
-          }}
-        />
+        <AvatarPicker avatarHandler={avatarHandler} />
       </FormControl>
 
       <Button
@@ -93,6 +91,7 @@ const Signup = () => {
         width="100%"
         style={{ marginTop: 15 }}
         onClick={onSubmitHandler}
+        isLoading={loading}
       >
         Sign Up
       </Button>

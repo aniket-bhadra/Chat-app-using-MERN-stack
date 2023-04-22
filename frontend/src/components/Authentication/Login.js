@@ -85,6 +85,7 @@ const Login = () => {
         <FormLabel> Email </FormLabel>
         <Input
           placeholder="Your email handle"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
@@ -95,6 +96,7 @@ const Login = () => {
           <Input
             type={show ? "text" : "password"}
             placeholder="Your secret weapon?"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
 

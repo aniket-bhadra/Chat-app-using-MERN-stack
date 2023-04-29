@@ -11,14 +11,18 @@ const accessChat = asyncHandler(async (req, res) => {
     return res.sendStatus(400);
   }
 
-  //now checks whether the chat exist with that user with login user
   let isChat = await Chat.find({
     isGroupChat: false,
-
-    //in case of $and, both of the condition has to match to return any document
     $and: [
       { users: { $elemMatch: { $eq: req.user._id } } },
       { users: { $elemMatch: { $eq: userId } } },
     ],
+  })
+    .populate("users", "-password")
+    .populate("latestMessage");
+
+  isChat = await User.populate(isChat, {
+    path: "latestMessage.sender",
+    select: "name pic email",
   });
 });

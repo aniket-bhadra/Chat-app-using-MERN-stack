@@ -21,7 +21,8 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified) {
-    next(); //if current password is not  modified then move on to the next, means dont run the code after it. otherwise generate a new password.
+    //This block of code checks if the document has been modified before it is saved. If the document has not been modified, then the middleware skips the rest of the code and moves on to the next middleware.
+    next(); //means if current password is not  modified then move on to the next, means dont run the code after it. otherwise generate a new password.
   }
 
   const salt = await bcrypt.genSalt(12);

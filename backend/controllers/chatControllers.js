@@ -11,8 +11,11 @@ const accessChat = asyncHandler(async (req, res) => {
     return res.sendStatus(400);
   }
 
+  //now checks whether the chat exist with that user with login user
   let isChat = await Chat.find({
     isGroupChat: false,
+
+    //in case of $and, both of the condition has to match to return any document
     $and: [
       { users: { $elemMatch: { $eq: req.user._id } } },
       { users: { $elemMatch: { $eq: userId } } },
@@ -25,4 +28,31 @@ const accessChat = asyncHandler(async (req, res) => {
     path: "latestMessage.sender",
     select: "name pic email",
   });
+
+  if (isChat.length > 0) {
+    // ! needs to revisit this block for sending status code
+    res.send(isChat[0]);
+  } else {
+    let chatData = {
+      chatName: "sender",
+      isGroupChat: false,
+      users: [req.user._id, userId],
+    };
+
+    try {
+      const createdChat = await Chat.create(chatData);
+
+      const FullChat = await Chat.findOne({ _id: createdChat._id }).populate(
+        "users",
+        "-password"
+      );
+
+      res.status(200).send(FullChat);
+    } catch (error) {
+      res.status(400);
+      throw new Error(error.message);
+    }
+  }
 });
+
+module.exports = { accessChat };

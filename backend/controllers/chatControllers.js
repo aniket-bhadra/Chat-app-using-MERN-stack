@@ -26,12 +26,12 @@ const accessChat = asyncHandler(async (req, res) => {
     .populate("users", "-password")
     .populate("latestMessage");
 
-    // console.log(isChat)
-    isChat = await User.populate(isChat, {
-      path: "latestMessage.sender",
-      select: "name pic email",
-    });
-    // console.log(isChat)
+  // console.log(isChat)
+  isChat = await User.populate(isChat, {
+    path: "latestMessage.sender",
+    select: "name pic email",
+  });
+  // console.log(isChat)
 
   if (isChat.length > 0) {
     // ! needs to revisit this block for sending status code
@@ -59,4 +59,12 @@ const accessChat = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { accessChat };
+const fetchChats = asyncHandler(async (req, res) => {
+  try {
+    Chat.find({ users: { $elemMatch: { $eq: req.user._id } } }).then((result) =>
+      res.send(result)
+    );
+  } catch (error) {}
+});
+
+module.exports = { accessChat, fetchChats };

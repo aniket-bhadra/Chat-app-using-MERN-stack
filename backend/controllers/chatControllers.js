@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
+
 const Chat = require("../models/chatModel");
+const User = require("../models/userModel");
 
 const accessChat = asyncHandler(async (req, res) => {
   //responsible for creating & fetching one and one chat, not group chat
@@ -24,10 +26,12 @@ const accessChat = asyncHandler(async (req, res) => {
     .populate("users", "-password")
     .populate("latestMessage");
 
-  isChat = await User.populate(isChat, {
-    path: "latestMessage.sender",
-    select: "name pic email",
-  });
+    // console.log(isChat)
+    isChat = await User.populate(isChat, {
+      path: "latestMessage.sender",
+      select: "name pic email",
+    });
+    // console.log(isChat)
 
   if (isChat.length > 0) {
     // ! needs to revisit this block for sending status code

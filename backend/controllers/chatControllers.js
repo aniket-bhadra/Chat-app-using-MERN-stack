@@ -89,7 +89,7 @@ const createGroupChat = asyncHandler(async (req, res) => {
   let users = JSON.parse(req.body.users);
 
 
- 
+  // ! add a validation here to prevent of adding same user id mulitiple times while creating a group
 
   if (users.length < 2) {
     return res

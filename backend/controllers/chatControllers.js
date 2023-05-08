@@ -147,7 +147,7 @@ const addToGroup = asyncHandler(async (req, res) => {
 
   // ! add a validation for chekcing empty values for chatId, userId
 
-  const added = Chat.findByIdAndUpdate(
+  const removed = Chat.findByIdAndUpdate(
     chatId,
     {
       $push: { users: userId },
@@ -159,12 +159,43 @@ const addToGroup = asyncHandler(async (req, res) => {
     .populate("users", "-password")
     .populate("groupAdmin", "-password");
 
-  if (!added) {
+  if (!removed) {
     res.status(404);
     throw new Error("Chat Not Found");
   } else {
-    res.json(added);
+    res.json(removed);
   }
 });
 
-module.exports = { accessChat, fetchChats, createGroupChat, renameGroup, addToGroup };
+const removeFromGroup = asyncHandler(async (req, res) => {
+  const { chatId, userId } = req.body;
+
+  // ! add a validation for chekcing empty values for chatId, userId
+
+  const removed = Chat.findByIdAndUpdate(
+    chatId,
+    {
+      $pull: { users: userId },
+    },
+    {
+      new: true,
+    }
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+
+  if (!removed) {
+    res.status(404);
+    throw new Error("Chat Not Found");
+  } else {
+    res.json(removed);
+  }
+});
+module.exports = {
+  accessChat,
+  fetchChats,
+  createGroupChat,
+  renameGroup,
+  addToGroup,
+  removeFromGroup,
+};

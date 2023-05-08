@@ -172,7 +172,7 @@ const removeFromGroup = asyncHandler(async (req, res) => {
 
   // ! add a validation for chekcing empty values for chatId, userId
 
-  const removed = Chat.findByIdAndUpdate(
+  const removed = await Chat.findByIdAndUpdate(
     chatId,
     {
       $pull: { users: userId },

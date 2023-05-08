@@ -84,10 +84,9 @@ const createGroupChat = asyncHandler(async (req, res) => {
   if (!req.body.users || !req.body.name) {
     return res.status(400).send({ message: "Please Fill all the fields" });
   }
-  
+
   //converting the json stringify (that we got from client side) to object
   let users = JSON.parse(req.body.users);
-
 
   // ! add a validation here to prevent of adding same user id mulitiple times while creating a group
 
@@ -118,4 +117,29 @@ const createGroupChat = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { accessChat, fetchChats, createGroupChat };
+const renameGroup = asyncHandler(async (req, res) => {
+  const { chatId, chatName } = req.body;
+
+  // ! add a validation here for checking empty values for chatName
+
+  const updatedChat = await Chat.findByIdAndUpdate(
+    chatId,
+    {
+      chatName,
+    },
+    {
+      new: true,
+    }
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+
+  if (!updatedChat) {
+    res.status(404);
+    throw new Error("Chat Not Found");
+  } else {
+    res.json(updatedChat);
+  }
+});
+
+module.exports = { accessChat, fetchChats, createGroupChat, renameGroup };

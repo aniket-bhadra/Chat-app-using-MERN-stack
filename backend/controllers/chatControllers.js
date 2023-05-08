@@ -147,7 +147,7 @@ const addToGroup = asyncHandler(async (req, res) => {
 
   // ! add a validation for chekcing empty values for chatId, userId
 
-  const removed = Chat.findByIdAndUpdate(
+  const added = await Chat.findByIdAndUpdate(
     chatId,
     {
       $push: { users: userId },
@@ -159,11 +159,11 @@ const addToGroup = asyncHandler(async (req, res) => {
     .populate("users", "-password")
     .populate("groupAdmin", "-password");
 
-  if (!removed) {
+  if (!added) {
     res.status(404);
     throw new Error("Chat Not Found");
   } else {
-    res.json(removed);
+    res.json(added);
   }
 });
 

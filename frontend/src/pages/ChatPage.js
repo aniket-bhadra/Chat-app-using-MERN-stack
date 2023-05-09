@@ -1,13 +1,14 @@
 import { Box } from "@chakra-ui/react";
 
 import { useChatState } from "../Context/ChatProvider";
+import SideDrawer from "../components/miscellaneous/SideDrawer";
 
 const ChatPage = () => {
   const { user } = useChatState();
 
   return (
     <div style={{ width: "100%" }}>
-      {/* {user && <SideDrawer />} */}
+      {user && <SideDrawer />}
 
       <Box>
         {/* {user && <MyChats />} */}

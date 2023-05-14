@@ -35,7 +35,7 @@ const SideDrawer = () => {
   const [loadingChat, setLoadingChat] = useState();
 
   const navigate = useNavigate();
-  const { user } = useChatState();
+  const { user, setSelectedChat, chats, setChats } = useChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -83,7 +83,23 @@ const SideDrawer = () => {
     }
   };
 
-  const accessChat = (userId) => {};
+  const accessChat = async (userId) => {
+    try {
+      setLoadingChat(true);
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const { data } = await axios.post("/api/chat", { userId }, config);
+      setSelectedChat(data);
+      setLoadingChat(false);
+      onClose();
+    } catch (error) {}
+  };
   return (
     <>
       <Box

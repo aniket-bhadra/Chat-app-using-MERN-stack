@@ -98,7 +98,16 @@ const SideDrawer = () => {
       setSelectedChat(data);
       setLoadingChat(false);
       onClose();
-    } catch (error) {}
+    } catch (error) {
+      toast({
+        title: "Error fetching the chat",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
   };
   return (
     <>

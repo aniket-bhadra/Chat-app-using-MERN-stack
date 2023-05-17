@@ -96,7 +96,7 @@ const SideDrawer = () => {
 
       const { data } = await axios.post("/api/chat", { userId }, config);
 
-      //if the chat is already there in our chat state, which we fetching inside MyChats--then append it upfront
+      //if the chat is not there in our chat state, which we fetching inside MyChats--then append it upfront
 
       if (!chats.find((chat) => chat._id === data._id)) {
         //* revisit the condition

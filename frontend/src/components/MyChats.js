@@ -6,6 +6,7 @@ import axios from "axios";
 import { useChatState } from "../Context/ChatProvider";
 import ChatLodaing from "./ChatLodaing";
 import { getSender } from "../config/ChatLogics";
+import GroupChatModal from "./miscellaneous/GroupChatModal";
 
 const MyChats = () => {
   const [loggedUser, setLoggedUser] = useState();

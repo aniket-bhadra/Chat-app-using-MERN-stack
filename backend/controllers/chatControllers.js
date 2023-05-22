@@ -146,6 +146,7 @@ const addToGroup = asyncHandler(async (req, res) => {
   const { chatId, userId } = req.body;
 
   // ! add a validation for chekcing empty values for chatId, userId
+  // ! add server logic to implement that only group admin can add users to that group
 
   const added = await Chat.findByIdAndUpdate(
     chatId,

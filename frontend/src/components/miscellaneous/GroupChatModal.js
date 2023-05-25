@@ -31,6 +31,8 @@ const GroupChatModal = ({ children }) => {
   const handleSearch = async (query) => {
     setSearch(query);
 
+    // ! this search is need to omitted later, it is best to do serach operaton with query itslelf, else can show some strange results
+
     if (!query) {
       return;
     }

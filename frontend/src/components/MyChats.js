@@ -10,12 +10,14 @@ import GroupChatModal from "./miscellaneous/GroupChatModal";
 
 const MyChats = () => {
   const [loggedUser, setLoggedUser] = useState();
+  const [myChatLoading, setMyChatLoading] = useState(true);
   const { user, selectedChat, setSelectedChat, chats, setChats } =
     useChatState();
   const toast = useToast();
 
   const fetchChats = async () => {
     try {
+      setMyChatLoading(true);
       const config = {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -25,6 +27,7 @@ const MyChats = () => {
       const { data } = await axios.get("/api/chat", config);
       // console.log(data);
       setChats(data);
+      setMyChatLoading(false);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -67,7 +70,6 @@ const MyChats = () => {
             display="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
             rightIcon={<AddIcon />}
-           
           >
             New Group Chat
           </Button>
@@ -84,7 +86,7 @@ const MyChats = () => {
         borderRadius="lg"
         overflowY="hidden"
       >
-        {chats ? (
+        {!myChatLoading ? (
           <Stack overflowY="scroll">
             {chats.map((chat) => (
               <Box

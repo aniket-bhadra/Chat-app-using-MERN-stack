@@ -63,14 +63,14 @@ const GroupChatModal = ({ children }) => {
     }
   };
   const handleSubmit = () => {};
-  // const handleDelete = (deletedUser) => {
-  //   setSelectedUsers((existingUsers) => {
-  //     const filteredUsers = existingUsers.filter(
-  //       (user) => user._id !== deletedUser._id
-  //     );
-  //     return filteredUsers;
-  //   });
-  // };
+  const handleDelete = (deletedUser) => {
+    setSelectedUsers((existingUsers) => {
+      const filteredUsers = existingUsers.filter(
+        (user) => user._id !== deletedUser._id
+      );
+      return filteredUsers;
+    });
+  };
   const handleGroup = (userToAdd) => {
     if (selectedUsers.includes(userToAdd)) {
       toast({

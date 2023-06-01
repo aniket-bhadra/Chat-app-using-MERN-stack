@@ -34,7 +34,54 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
 
   const toast = useToast();
 
-  const handleRemove = () => {};
+  const handleRemove = async (userToRemove) => {
+    if (
+      selectedChat.groupAdmin._id !== user._id &&
+      userToRemove._id !== user._id
+    ) {
+      toast({
+        title: "Only admins can remove someone!",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        "/api/chat/groupremove",
+        {
+          chatId: selectedChat._id,
+          userId: userToRemove._id,
+        },
+        config
+      );
+
+      userToRemove._id === user._id ? setSelectedChat() : setSelectedChat(data);
+      setFetchAgain((prevState) => !prevState);
+      setLoading(false);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: error.response.data.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+    }
+  };
 
   const handleAddUser = async (userToAdd) => {
     if (selectedChat.groupAdmin._id !== user._id) {
@@ -71,7 +118,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
         },
       };
 
-      console.log(userToAdd);
+      // console.log(userToAdd);
       const { data } = await axios.put(
         "/api/chat/groupadd",
         {
@@ -210,7 +257,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
                   handleFunction={() => handleRemove(user)}
                 />
               ))}
-              {/* // ! create a spearate UserBadgeItem for loggedin user, where it shows "you" instead of loggedin username */}
+              {/* // ! create a spearate UserBadgeItem for loggedin user, where it shows "you" instead of loggedin username & a separate UserBadgeItem for admin of the group (conditional mapping)*/}
             </Box>
 
             <FormControl display="flex">

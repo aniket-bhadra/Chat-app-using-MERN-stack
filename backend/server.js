@@ -6,6 +6,7 @@ const { chats } = require("./data/data");
 const connectDB = require("./config/db");
 const chatRoutes = require("./routes/chatRoutes");
 const userRoutes = require("./routes/userRoutes");
+const messageRoutes = require("./routes/messageRoutes");
 const {
   notFoundMiddleware,
   errorHandlerMiddleware,

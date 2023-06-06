@@ -13,7 +13,7 @@ const sendMessages = asyncHandler(async (req, res) => {
     return res.sendStatus(400);
   }
 
-  // * here we need to add one extra layer of validation where we will check chatId's users array, before sending message to chat,  need to check bearer token's userId inside that given chatId's users array, it help us-- that only the users part of that chat, can send message inside that chat.
+  // * here we need to add one extra layer of validation where we will check chatId's users array, before sending message to chat,  need to check is bearer token's userId exist inside that given chatId's users array??? it help us-- that only the users part of that chat, can send message inside that chat.
 
   let newMessage = {
     sender: req.user._id,
@@ -45,7 +45,7 @@ const sendMessages = asyncHandler(async (req, res) => {
     );
     console.log("yo is ", yo);
 
-    res.json(message);
+    res.json(message + yo);
   } catch (error) {
     res.status(400);
     throw new Error(error.message);

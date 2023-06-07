@@ -24,7 +24,7 @@ const sendMessages = asyncHandler(async (req, res) => {
   try {
     let message = await Message.create(newMessage);
 
-    //since here we are not populating directly inside of a query, we are populating an instance that is why here---used execPopulate()---->(deprecated)
+    //since here we are not populating directly inside of a query, we are populating an instance that is why here---used execPopulate()---->(deprecated)..
 
     message = await message.populate("sender", "name pic");
     message = await message.populate("chat");
@@ -32,20 +32,12 @@ const sendMessages = asyncHandler(async (req, res) => {
       path: "chat.users",
       select: "name pic email",
     });
-    console.log(message);
 
-    const yo = await Chat.findByIdAndUpdate(
-      req.body.chatId,
-      {
-        latestMessage: message,
-      },
-      {
-        new: true,
-      }
-    );
-    console.log("yo is ", yo);
+    await Chat.findByIdAndUpdate(req.body.chatId, {
+      latestMessage: message,
+    });
 
-    res.json(message + yo);
+    res.json(message);
   } catch (error) {
     res.status(400);
     throw new Error(error.message);

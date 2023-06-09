@@ -45,6 +45,13 @@ const sendMessages = asyncHandler(async (req, res) => {
 });
 
 const allMessages = asyncHandler(async (req, res) => {
+
+    // * here we need to add one extra layer of validation where we will check chatId's users array, before fetching all messages from a particular chat,  need to check is bearer token's userId exist inside that given chatId's users array??? it help us-- that only the users part of that chat, can fetch all messages inside that chat, other users who are not part of that chat can not fetch the messages inside that chat.
+
+
+
+    //* need to add one more validation to handle------if chat id has valid syntax, but that chat does not exist--send some error saying-- "this chat does not exist", without this, if chat id is valid then empty [] is returned.
+
   try {
     const messages = await Message.find({ chat: req.params.chatId })
       .populate("sender", "name pic email")

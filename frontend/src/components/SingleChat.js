@@ -1,5 +1,12 @@
-import React from "react";
-import { Box, IconButton, Text } from "@chakra-ui/react";
+import React, { useState } from "react";
+import {
+  Box,
+  FormControl,
+  IconButton,
+  Input,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 
 import { useChatState } from "../Context/ChatProvider";
@@ -8,7 +15,20 @@ import ProfileModal from "./miscellaneous/ProfileModal";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [newMessage, setNewMessage] = useState();
   const { user, selectedChat, setSelectedChat } = useChatState();
+
+  const sendMessage = async (event) => {
+
+  };
+
+  const typingHandler = (e) => {
+    setNewMessage(e.target.value);
+
+    //typing indicator logic here
+  };
   return (
     <>
       {selectedChat ? (
@@ -33,7 +53,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               <>
                 {getSender(user, selectedChat.users)}
                 <ProfileModal user={getSenderFull(user, selectedChat.users)} />
-                
               </>
             ) : (
               <>
@@ -47,18 +66,38 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           </Text>
 
           <Box
-          display="flex"
-          flexDir="column"
-          justifyContent="flex-end"
-          p={3}
-          bg="#E8E8E8"
-          w="100%"
-          h="100%"
-          borderRadius="lg"
-          overflowY="hidden"
-          > 
+            display="flex"
+            flexDir="column"
+            justifyContent="flex-end"
+            p={3}
+            bg="#E8E8E8"
+            w="100%"
+            h="100%"
+            borderRadius="lg"
+            overflowY="hidden"
+          >
+            {loading ? (
+              <Spinner
+                size="xl"
+                w={20}
+                h={20}
+                alignSelf="center"
+                margin="auto"
+                color="teal"
+              />
+            ) : (
+              <div>{/* Messages */}</div>
+            )}
 
-            {/* Messages here */}
+            <FormControl onKeyDown={sendMessage} isRequired mt={3}>
+              <Input
+                variant="filled"
+                bg="#E0E0E0"
+                placeholder="Enter a message..."
+                value={newMessage}
+                onChange={typingHandler}
+              />
+            </FormControl>
           </Box>
         </>
       ) : (

@@ -33,6 +33,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
         };
 
+        setNewMessage("");
+        //this state updating function is asynchrounous, so it won't immedieatly make this empty. 
         const { data } = await axios.post(
           "/api/message",
           {
@@ -43,7 +45,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
 
         console.log(data);
-        setNewMessage("");
+        
         setMessages((prevMessages) => [...prevMessages, data]);
       } catch (error) {
         toast({

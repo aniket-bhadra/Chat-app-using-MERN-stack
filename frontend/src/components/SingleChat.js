@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   FormControl,
@@ -23,6 +23,44 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { user, selectedChat, setSelectedChat } = useChatState();
   const toast = useToast();
 
+  const fetchMessages = async () => {
+    if (!selectedChat) {
+      return;
+    }
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      setLoading(true);
+
+      const { data } = await axios.get(
+        `/api/message/${selectedChat._id}`,
+        config
+      );
+      console.log("before state update", messages)
+      setMessages(data);
+      console.log("after state update", messages)
+      setLoading(false);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: "Failed to Load the Messages",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchMessages();
+  }, [selectedChat]);
+
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
       try {
@@ -34,7 +72,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         };
 
         setNewMessage("");
-        //this state updating function is asynchrounous, so it won't immedieatly make this empty. 
+        //this state updating function is asynchrounous, so it won't immedieatly make this empty.
         const { data } = await axios.post(
           "/api/message",
           {
@@ -45,7 +83,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
 
         console.log(data);
-        
+
         setMessages((prevMessages) => [...prevMessages, data]);
       } catch (error) {
         toast({

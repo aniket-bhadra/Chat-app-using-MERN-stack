@@ -41,9 +41,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         `/api/message/${selectedChat._id}`,
         config
       );
-      console.log("before state update", messages)
+        console.log(data)
       setMessages(data);
-      console.log("after state update", messages)
+
       setLoading(false);
     } catch (error) {
       toast({

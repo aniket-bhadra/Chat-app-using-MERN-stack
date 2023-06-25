@@ -23,7 +23,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { user, selectedChat, setSelectedChat } = useChatState();
   const toast = useToast();
 
-  console.log(newMessage)
   const fetchMessages = async () => {
     if (!selectedChat) {
       return;
@@ -42,7 +41,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         `/api/message/${selectedChat._id}`,
         config
       );
-      console.log(data);
       setMessages(data);
 
       setLoading(false);
@@ -72,7 +70,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
         };
 
-        setNewMessage("yoyo");
+        setNewMessage("");
         //this state updating function is asynchrounous, so it won't immedieatly make this empty.
         const { data } = await axios.post(
           "/api/message",
@@ -82,10 +80,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
           config
         );
-        console.log(data);
-        
+        // console.log(data); 
+
         setMessages((prevMessages) => [...prevMessages, data]);
-        console.log("newMesage", newMessage);
       } catch (error) {
         toast({
           title: "Error Occured!",

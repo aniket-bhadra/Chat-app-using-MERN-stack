@@ -41,7 +41,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         `/api/message/${selectedChat._id}`,
         config
       );
+      // console.log(messages)
       setMessages(data);
+      // console.log(messages)
 
       setLoading(false);
     } catch (error) {
@@ -158,7 +160,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 color="teal"
               />
             ) : (
-              <div>{/* Messages */}</div>
+              <div className="messages">{/* Messages */}</div>
             )}
 
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>

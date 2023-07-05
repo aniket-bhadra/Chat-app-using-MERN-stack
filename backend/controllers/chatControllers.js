@@ -121,6 +121,7 @@ const renameGroup = asyncHandler(async (req, res) => {
   const { chatId, chatName } = req.body;
 
   // ! add a validation here for checking empty values for chatName
+  // ! also checks that provided chatId is a Id for groupChat, not one and one chat 
 
   const updatedChat = await Chat.findByIdAndUpdate(
     chatId,
@@ -147,6 +148,7 @@ const addToGroup = asyncHandler(async (req, res) => {
 
   // ! add a validation for chekcing empty values for chatId, userId
   // ! add server logic to implement that only group admin can add users to that group
+  // ! also checks that provided chatId is a Id for groupChat, not one and one chat 
 
   const added = await Chat.findByIdAndUpdate(
     chatId,
@@ -171,7 +173,7 @@ const addToGroup = asyncHandler(async (req, res) => {
 const removeFromGroup = asyncHandler(async (req, res) => {
   const { chatId, userId } = req.body;
 
-  // ! add a validation for chekcing empty values for chatId, userId
+  // ! add a validation for chekcing empty values for chatId, userId, also checks that provided chatId is a Id for groupChat, not one and one chat 
 
   const removed = await Chat.findByIdAndUpdate(
     chatId,

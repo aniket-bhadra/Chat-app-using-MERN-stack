@@ -23,7 +23,7 @@ import { useChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../UserAvatar/UserBadgeItem";
 import UserListItem from "../UserAvatar/UserListItem";
 
-const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
+const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   const { user, selectedChat, setSelectedChat } = useChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState(selectedChat.chatName);
@@ -69,6 +69,8 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
 
       userToRemove._id === user._id ? setSelectedChat() : setSelectedChat(data);
       setFetchAgain((prevState) => !prevState);
+      //so that all the messages get refreshed after removing someone from the group
+      fetchMessages();
       setLoading(false);
     } catch (error) {
       toast({

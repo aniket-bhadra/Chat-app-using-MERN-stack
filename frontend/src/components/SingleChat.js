@@ -24,6 +24,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [newMessage, setNewMessage] = useState("");
   const { user, selectedChat, setSelectedChat } = useChatState();
   const toast = useToast();
+  console.log(messages);
 
   const fetchMessages = async () => {
     if (!selectedChat) {

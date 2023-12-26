@@ -29,3 +29,10 @@ export const isLastMessage = (messages, currentMessageIndex, loginUser) => {
     messages[currentMessageIndex].sender._id !== loginUser
   );
 };
+
+export const isSameUser = (messages, currentMessage, currentMessageIndex) => {
+  return (
+    currentMessageIndex > 0 &&
+    currentMessage.sender._id === messages[currentMessageIndex - 1].sender._id
+  );
+};

@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import axios from "axios";
+import io from "socket.io-client";
 import "./styles.css";
 
 import { useChatState } from "../Context/ChatProvider";
@@ -18,10 +19,15 @@ import ProfileModal from "./miscellaneous/ProfileModal";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import ScrollableChat from "./ScrollableChat";
 
+const ENDPOINT = "http://localhost:5000";
+var socket, selectedChatCompare;
+
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
+  const [socketConnected, setSocketConnected] = useState(false);
+
   const { user, selectedChat, setSelectedChat } = useChatState();
   const toast = useToast();
   // console.log(messages);
@@ -100,6 +106,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     }
   };
+
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    //emiting from "setup" socket
+    socket.emit("setup", user);
+    socket.on("connection", () => setSocketConnected(true));
+  }, []);
 
   const typingHandler = (e) => {
     setNewMessage(e.target.value);

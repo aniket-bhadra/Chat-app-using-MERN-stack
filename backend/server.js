@@ -54,7 +54,30 @@ io.on("connection", (socket) => {
     //we will create an new room with the id of user data, and that room will be exclusive for that user only
     socket.join(userData._id);
     //so this has created a room for that particular user
-    console.log(userData._id);
     socket.emit("connected");
+  });
+
+  //joining an chat
+  socket.on("join chat", (room) => {
+    //create a room with the id of room
+    socket.join(room);
+    console.log("User joined a Room: " + room);
+  });
+  //so whenever in client side we click any of the chat,this should create a new room with that particular user and the other as well,so when other user joins,its gonna add that user to this particular room.
+
+  //create an new socket
+  socket.on("new message", (newMessageReceived) => {
+    var chat = newMessageReceived.chat;
+
+    //for testing
+    if (!chat.users) return console.log("chat.user not defined");
+
+    //if i send a message, i want that messeage to be emitted to all of the other ussers execept me
+    chat.users.forEach((user) => {
+      if (user._id === newMessageReceived.sender._id) return;
+
+      //otherwise its gonna send it to other users, 'in' means inside that user's room emit/send that message
+      socket.in(user._id).emit("message received", newMessageReceived);
+    });
   });
 });

@@ -55,6 +55,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       // console.log(messages)
 
       setLoading(false);
+
+      //emit the signal to join the room
+      socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -68,8 +71,31 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+    //emiting from "setup" socket
+    socket.emit("setup", user);
+    socket.on("connection", () => setSocketConnected(true));
+  }, []);
+
+  useEffect(() => {
     fetchMessages();
+
+    //keep the backup of whatever the selectedChat state is, inside of this selectedChatCompare, so that we can compare it & accordingly we can decide if we are supposed to emit the message or we are supposed to give the notification to the user
+    selectedChatCompare = selectedChat;
   }, [selectedChat]);
+
+  useEffect(() => {
+    socket.on("message received", (newMessageReceived) => {
+      if (
+        !selectedChatCompare ||
+        selectedChatCompare._id !== newMessageReceived.chat._id
+      ) {
+        //not gonna display the message, give notification
+      } else {
+        setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
+      }
+    });
+  },[]);
 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
@@ -92,7 +118,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           config
         );
         // console.log(data);
-
+        socket.emit("new message", data);
         setMessages((prevMessages) => [...prevMessages, data]);
       } catch (error) {
         toast({
@@ -106,13 +132,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     }
   };
-
-  useEffect(() => {
-    socket = io(ENDPOINT);
-    //emiting from "setup" socket
-    socket.emit("setup", user);
-    socket.on("connection", () => setSocketConnected(true));
-  }, []);
 
   const typingHandler = (e) => {
     setNewMessage(e.target.value);

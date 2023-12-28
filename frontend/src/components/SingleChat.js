@@ -48,6 +48,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       };
 
       setLoading(true);
+      setNewMessage("");
 
       const { data } = await axios.get(
         `/api/message/${selectedChat._id}`,

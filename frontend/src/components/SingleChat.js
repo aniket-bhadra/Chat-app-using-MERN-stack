@@ -30,10 +30,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [typingRoom, setTypingRoom] = useState();
 
   const { user, selectedChat, setSelectedChat } = useChatState();
   const toast = useToast();
-  // console.log(messages);
+  // console.log(typing);
 
   const fetchMessages = async () => {
     if (!selectedChat) {
@@ -79,7 +80,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     //emiting from "setup" socket
     socket.emit("setup", user);
     socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
+    socket.on("typing", (room) => {
+      setTypingRoom(room);
+      setIsTyping(true);
+    });
     socket.on("stop typing", () => setIsTyping(false));
   }, []);
 
@@ -230,7 +234,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             )}
 
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>
-              {isTyping ? <div>typing...</div> : <></>}
+              {isTyping && typingRoom === selectedChat._id ? (
+                <div>typing...</div>
+              ) : (
+                <></>
+              )}
               <Input
                 variant="filled"
                 bg="#E0E0E0"

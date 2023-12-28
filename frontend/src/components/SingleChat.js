@@ -76,7 +76,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket = io(ENDPOINT);
     //emiting from "setup" socket
     socket.emit("setup", user);
-    socket.on("connection", () => setSocketConnected(true));
+    socket.on("connected", () => setSocketConnected(true));
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
   }, []);
@@ -103,6 +103,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
+      socket.emit("stop typing", selectedChat._id);
       try {
         const config = {
           headers: {
@@ -149,13 +150,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       socket.emit("typing", selectedChat._id);
     }
 
+    console.log("outside setTimeout");
     let lastTypingTime = new Date().getTime();
     var timerLength = 3000;
     setTimeout(() => {
       var timeNow = new Date().getTime();
       var timeDiff = timeNow - lastTypingTime;
 
+      console.log("inside setTimeout");
+      console.log(timeDiff >= timerLength, `typing state value is ${typing}`);
       if (timeDiff >= timerLength && typing) {
+        console.log("inside if");
         socket.emit("stop typing", selectedChat._id);
         setTyping(false);
       }
@@ -225,6 +230,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             )}
 
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>
+              {isTyping ? <div>typing...</div> : <></>}
               <Input
                 variant="filled"
                 bg="#E0E0E0"

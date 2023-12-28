@@ -21,13 +21,13 @@ import ScrollableChat from "./ScrollableChat";
 
 const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
+let timeExceeded = false;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
-  const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
 
   const { user, selectedChat, setSelectedChat } = useChatState();
@@ -145,24 +145,21 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
     if (!socketConnected) return;
 
-    if (!typing) {
-      setTyping(true);
+    if (!timeExceeded) {
+      timeExceeded = true;
       socket.emit("typing", selectedChat._id);
     }
 
-    console.log("outside setTimeout");
     let lastTypingTime = new Date().getTime();
     var timerLength = 3000;
+
     setTimeout(() => {
       var timeNow = new Date().getTime();
       var timeDiff = timeNow - lastTypingTime;
 
-      console.log("inside setTimeout");
-      console.log(timeDiff >= timerLength, `typing state value is ${typing}`);
-      if (timeDiff >= timerLength && typing) {
-        console.log("inside if");
+      if (timeDiff >= timerLength && timeExceeded) {
         socket.emit("stop typing", selectedChat._id);
-        setTyping(false);
+        timeExceeded = false;
       }
     }, timerLength);
   };

@@ -22,6 +22,7 @@ import ScrollableChat from "./ScrollableChat";
 const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
 let timeExceeded = false;
+let timeOutId;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
@@ -153,7 +154,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     let lastTypingTime = new Date().getTime();
     var timerLength = 3000;
 
-    setTimeout(() => {
+    clearTimeout(timeOutId);
+    timeOutId = setTimeout(() => {
       var timeNow = new Date().getTime();
       var timeDiff = timeNow - lastTypingTime;
 

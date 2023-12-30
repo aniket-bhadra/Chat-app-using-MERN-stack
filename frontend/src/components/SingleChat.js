@@ -18,6 +18,7 @@ import { getSender, getSenderFull } from "../config/ChatLogics";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import ScrollableChat from "./ScrollableChat";
+import TypingAnimation from "./animations/TypingAnimation";
 
 const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
@@ -235,7 +236,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>
               {isTyping && typingRoom === selectedChat._id ? (
-                <div>typing...</div>
+                <TypingAnimation />
               ) : (
                 <></>
               )}

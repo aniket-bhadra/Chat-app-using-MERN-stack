@@ -33,7 +33,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [typingRoom, setTypingRoom] = useState();
 
-  const { user, selectedChat, setSelectedChat } = useChatState();
+  const {
+    user,
+    selectedChat,
+    setSelectedChat,
+    notifications,
+    setNotifications,
+  } = useChatState();
   const toast = useToast();
   // console.log(typing);
 
@@ -102,6 +108,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
         //not gonna display the message, give notification
+        if (!notifications.includes(newMessageReceived)) {
+          setNotifications((existingNotifications) => [
+            newMessageReceived,
+            ...existingNotifications,
+          ]);
+
+          setFetchAgain((prevState) => !prevState);
+        }
       } else {
         setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
       }

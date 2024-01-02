@@ -23,11 +23,13 @@ import {
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import NotificationBadge, { Effect } from "react-notification-badge";
 
 import { useChatState } from "../../Context/ChatProvider";
 import ProfileModal from "./ProfileModal";
 import ChatLodaing from "../ChatLodaing";
 import UserListItem from "../UserAvatar/UserListItem";
+import { getSender } from "../../config/ChatLogics";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -36,7 +38,14 @@ const SideDrawer = () => {
   const [loadingChat, setLoadingChat] = useState();
 
   const navigate = useNavigate();
-  const { user, setSelectedChat, chats, setChats } = useChatState();
+  const {
+    user,
+    setSelectedChat,
+    chats,
+    setChats,
+    notifications,
+    setNotifications,
+  } = useChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -144,10 +153,48 @@ const SideDrawer = () => {
         <div>
           <Menu>
             <MenuButton padding={1}>
+              <NotificationBadge
+                count={notifications.length}
+                effect={Effect.SCALE}
+              />
               <BellIcon fontSize="2xl" m={1} />
             </MenuButton>
 
-            {/* <MenuList></MenuList> */}
+            <MenuList pl={3}>
+              {!notifications.length && "No New Messages"}
+              {notifications.map((notification) => (
+                <MenuItem
+                  key={notification._id}
+                  onClick={() => {
+                    const recevingMessageChat = chats.find(
+                      (chat) => chat._id === notification.chat._id
+                    );
+
+                    if (!recevingMessageChat) {
+                      // add a jsx which says--oops! sorry chat not found, try creating the chat with ${notification.sender} if it is groupChat-- sorry chat not found, try to contact the groupAdmin of${notification.chat.chatName}
+                      return;
+                    }
+
+                    setSelectedChat(recevingMessageChat);
+
+                    //addd filter logic
+                    setNotifications((existingNotifications) =>
+                      existingNotifications.filter(
+                        (existingNotification) =>
+                          existingNotification._id !== notification._id
+                      )
+                    );
+                  }}
+                >
+                  {notification.chat.isGroupChat
+                    ? `New Message in ${notification.chat.chatName}`
+                    : `New Message from ${getSender(
+                        user,
+                        notification.chat.users
+                      )}`}
+                </MenuItem>
+              ))}
+            </MenuList>
           </Menu>
 
           <Menu>

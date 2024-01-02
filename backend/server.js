@@ -87,4 +87,11 @@ io.on("connection", (socket) => {
       socket.in(user._id).emit("message received", newMessageReceived);
     });
   });
+
+  //cleanup the socket otherwise it will consume alot of bandwidth, if we we leave it,
+
+  socket.off("setup", () => {
+    console.log("USER DISCONNECTED!");
+    socket.leave(userData._id);
+  });
 });

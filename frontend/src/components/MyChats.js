@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Stack,
+  Text,
+  useToast,
+  Flex,
+  Heading,
+  Divider,
+} from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import axios from "axios";
 
@@ -7,6 +16,7 @@ import { useChatState } from "../Context/ChatProvider";
 import ChatLodaing from "./ChatLodaing";
 import { getSender } from "../config/ChatLogics";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
+import theme from "../constants/theme";
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
@@ -50,31 +60,48 @@ const MyChats = ({ fetchAgain }) => {
       display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
       flexDir="column"
       alignItems="center"
-      p={3}
+      p={4}
       bg="white"
       w={{ base: "100%", md: "31%" }}
       borderRadius="lg"
       borderWidth="1px"
+      borderColor={theme.light}
+      boxShadow="0 2px 10px rgba(0,0,0,0.05)"
+      height="100%"
     >
-      <Box
+      <Flex
         pb={3}
         px={3}
-        fontSize={{ base: "28px", md: "30px" }}
         fontFamily="Work sans"
-        display="flex"
         width="100%"
+        justifyContent="space-between"
+        alignItems="center"
       >
-        My Chats
+        <Heading
+          fontSize={{ base: "24px", md: "26px" }}
+          fontWeight="600"
+          color={theme.primary}
+        >
+          My Chats
+        </Heading>
         <GroupChatModal>
           <Button
             display="flex"
-            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+            fontSize={{ base: "14px", md: "12px", lg: "14px" }}
             rightIcon={<AddIcon />}
+            bg={theme.secondary}
+            color={theme.primary}
+            _hover={{ bg: theme.tertiary, color: "white" }}
+            size="sm"
+            borderRadius="full"
+            px={4}
           >
-            New Group Chat
+            New Group
           </Button>
         </GroupChatModal>
-      </Box>
+      </Flex>
+
+      <Divider borderColor={theme.light} mb={3} />
 
       <Box
         display="flex"
@@ -85,25 +112,87 @@ const MyChats = ({ fetchAgain }) => {
         h="100%"
         borderRadius="lg"
         overflowY="hidden"
+        boxShadow="inset 0 2px 5px rgba(0,0,0,0.05)"
       >
         {!myChatLoading ? (
-          <Stack overflowY="scroll">
+          <Stack overflowY="scroll" spacing={2} pr={2}>
             {chats.map((chat) => (
               <Box
                 key={chat._id}
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
-                bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                color={selectedChat === chat ? "white" : "black"}
-                px={3}
-                py={2}
-                borderRadius="lg"
+                bg={
+                  selectedChat === chat
+                    ? `linear-gradient(to right, ${theme.secondary}, ${theme.tertiary})`
+                    : "white"
+                }
+                color={selectedChat === chat ? "white" : theme.primary}
+                px={4}
+                py={3}
+                borderRadius="md"
+                boxShadow="0 1px 3px rgba(0,0,0,0.1)"
+                transition="all 0.2s ease"
+                _hover={{
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                  bg:
+                    selectedChat === chat
+                      ? `linear-gradient(to right, ${theme.secondary}, ${theme.tertiary})`
+                      : theme.light,
+                }}
+                position="relative"
+                overflow="hidden"
               >
-                <Text>
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
-                </Text>
+                <Flex alignItems="center" justifyContent="space-between">
+                  <Text fontWeight="500" isTruncated>
+                    {!chat.isGroupChat
+                      ? getSender(loggedUser, chat.users)
+                      : chat.chatName}
+                  </Text>
+                  {chat.isGroupChat && (
+                    <Box
+                      as="span"
+                      fontSize="xs"
+                      px={2}
+                      py={1}
+                      borderRadius="full"
+                      bg={
+                        selectedChat === chat
+                          ? "rgba(255,255,255,0.2)"
+                          : theme.accent
+                      }
+                      color={selectedChat === chat ? "white" : theme.primary}
+                      fontWeight="bold"
+                    >
+                      Group
+                    </Box>
+                  )}
+                </Flex>
+                {chat.latestMessage && (
+                  <Text
+                    fontSize="xs"
+                    color={
+                      selectedChat === chat
+                        ? "rgba(255,255,255,0.8)"
+                        : "gray.500"
+                    }
+                    mt={1}
+                    isTruncated
+                  >
+                    {chat.latestMessage.content.length > 50
+                      ? chat.latestMessage.content.substring(0, 49) + "..."
+                      : chat.latestMessage.content}
+                  </Text>
+                )}
+                <Box
+                  position="absolute"
+                  left="0"
+                  top="0"
+                  bottom="0"
+                  width="5px"
+                  bg={selectedChat === chat ? "white" : theme.accent}
+                  opacity={selectedChat === chat ? 0.8 : 0.6}
+                ></Box>
               </Box>
             ))}
           </Stack>

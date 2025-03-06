@@ -67,9 +67,12 @@ io.on("connection", (socket) => {
   //so whenever in client side we click any of the chat,this should create a new room with that particular user and the other as well,so when other user joins,its gonna add that user to this particular room.
 
   //create new socket for typing
-  socket.on("typing", (room) => {
-    let roomId = room;
-    socket.in(room).emit("typing", roomId);
+  socket.on("typing", ({ chatId, user }) => {
+    let roomId = chatId;
+    socket.in(roomId).emit("typing", {
+      roomId,
+      user,
+    });
   });
   socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 

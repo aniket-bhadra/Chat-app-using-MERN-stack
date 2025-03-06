@@ -13,6 +13,7 @@ import {
   InputGroup,
   InputRightElement,
   Button,
+  Avatar,
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { FaPaperPlane } from "react-icons/fa";
@@ -40,6 +41,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [typingRoom, setTypingRoom] = useState();
+  const [whoIsTyping, setWhoIsTyping] = useState();
 
   const {
     user,
@@ -91,9 +93,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     //emiting from "setup" socket
     socket.emit("setup", user);
     socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", (room) => {
-      setTypingRoom(room);
+    socket.on("typing", ({ roomId, user }) => {
+      setTypingRoom(roomId);
       setIsTyping(true);
+      setWhoIsTyping(user);
     });
     socket.on("stop typing", () => setIsTyping(false));
   }, []);
@@ -190,7 +193,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
     if (!timeExceeded) {
       timeExceeded = true;
-      socket.emit("typing", selectedChat._id);
+      socket.emit("typing", {
+        chatId: selectedChat._id,
+        user,
+      });
     }
 
     let lastTypingTime = new Date().getTime();
@@ -294,9 +300,21 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
             <Box mt={3}>
               {isTyping && typingRoom === selectedChat._id && (
-                <Box ml={2} mb={1}>
-                  <TypingAnimation />
-                </Box>
+                <Flex align="center" ml={2} mb={1}>
+                  <Avatar
+                    size="xs"
+                    cursor="pointer"
+                    name={whoIsTyping.name}
+                    src={whoIsTyping.pic}
+                    borderWidth="1px"
+                    borderColor={theme.accent}
+                    mr={1}
+                  />
+                  <Text fontSize="xs" color="gray.600" mr={1}>{whoIsTyping.name}</Text>
+                  <Box display="inline-flex" alignItems="center">
+                    <TypingAnimation />
+                  </Box>
+                </Flex>
               )}
 
               <FormControl onKeyDown={sendMessage} isRequired>

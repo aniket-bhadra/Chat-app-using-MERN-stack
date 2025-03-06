@@ -129,7 +129,7 @@ const MyChats = ({ fetchAgain }) => {
                 color={selectedChat === chat ? "white" : theme.primary}
                 px={4}
                 py={3}
-                borderRadius="md"
+                borderRadius="3xl"
                 boxShadow="0 1px 3px rgba(0,0,0,0.1)"
                 transition="all 0.2s ease"
                 _hover={{
@@ -159,7 +159,7 @@ const MyChats = ({ fetchAgain }) => {
                       bg={
                         selectedChat === chat
                           ? "rgba(255,255,255,0.2)"
-                          : theme.accent
+                          : "#efb63899"
                       }
                       color={selectedChat === chat ? "white" : theme.primary}
                       fontWeight="bold"
@@ -189,7 +189,7 @@ const MyChats = ({ fetchAgain }) => {
                   left="0"
                   top="0"
                   bottom="0"
-                  width="5px"
+                  width="8px"
                   bg={selectedChat === chat ? "white" : theme.accent}
                   opacity={selectedChat === chat ? 0.8 : 0.6}
                 ></Box>

@@ -22,6 +22,7 @@ import axios from "axios";
 import { useChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../UserAvatar/UserBadgeItem";
 import UserListItem from "../UserAvatar/UserListItem";
+import theme from "../../constants/theme";
 
 const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   const { user, selectedChat, setSelectedChat } = useChatState();
@@ -237,6 +238,13 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
         onClick={onOpen}
         icon={<ViewIcon />}
         display={{ base: "flex" }}
+        color={theme.primary}
+        backgroundColor={theme.tertiary}
+        borderRadius="3xl"
+        _hover={{
+          backgroundColor: theme.secondary,
+          color: theme.primary,
+        }}
       />
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />

@@ -27,6 +27,13 @@ const ProfileModal = ({ user, children }) => {
           display={{ base: "flex" }}
           icon={<ViewIcon />}
           onClick={onOpen}
+          color={theme.primary}
+          backgroundColor={theme.tertiary}
+          borderRadius="3xl"
+          _hover={{
+            backgroundColor: theme.secondary,
+            color: theme.primary,
+          }}
         />
       )}
 

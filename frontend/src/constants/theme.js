@@ -6,6 +6,7 @@ const theme = {
   light: "#fde8c7", // Light cream
   orange: "#E07A5F",
   orange2: "#D86442",
+  lightGolden: "#efb63899",
 };
 
 export default theme;

@@ -13,7 +13,10 @@ import {
   GridItem,
   Image,
   useToast,
+  Text,
 } from "@chakra-ui/react";
+
+import theme from "../../constants/theme";
 
 const avatars = [
   "https://cdn.pixabay.com/photo/2023/03/15/09/32/woman-7854120_1280.png",
@@ -120,24 +123,44 @@ function AvatarPicker(props) {
 
   return (
     <>
-      <Box display="flex" alignItems="center" justifyContent="center">
-        <Button onClick={handleOpen}>
+      <Box display="flex" alignItems="center" justifyContent="center" mt={2}>
+        <Button
+          onClick={handleOpen}
+          bg={theme.tertiary}
+          color="white"
+          _hover={{ bg: theme.secondary, color: theme.primary }}
+        >
           {selectedAvatar ? "Change your avatar" : "Pick your avatar"}
         </Button>
       </Box>
 
       {selectedAvatar && (
         <div>
-          <p style={{ textAlign: "center" }}>{funStrings}</p>
+          <Text
+            color={theme.tertiary}
+            fontSize="md"
+            fontStyle="italic"
+            mb={3}
+            textAlign="center"
+          >
+            {funStrings}
+          </Text>
           <Box display="flex" alignItems="center" justifyContent="center">
-            <Avatar name="Avatar" src={selectedAvatar} size="xl" />
+            <Avatar
+              name="Avatar"
+              src={selectedAvatar}
+              size="xl"
+              borderRadius="full"
+              borderWidth="3px"
+              borderColor={theme.orange}
+            />
           </Box>
         </div>
       )}
 
       <Modal isOpen={isOpen} onClose={handleClose} size="sm">
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg={theme.light}>
           <ModalHeader>Select your avatar</ModalHeader>
           <ModalCloseButton />
           <ModalBody

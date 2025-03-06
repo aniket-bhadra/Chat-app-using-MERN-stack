@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import theme from "../../constants/theme";
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -82,26 +83,34 @@ const Login = () => {
   return (
     <VStack spacing="5px">
       <FormControl id="loginEmail" isRequired>
-        <FormLabel> Email </FormLabel>
+        <FormLabel color={theme.primary}> Email </FormLabel>
         <Input
           placeholder="Your email handle"
+          borderColor={theme.tertiary}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
 
       <FormControl id="loginPassword" isRequired>
-        <FormLabel> Password </FormLabel>
+        <FormLabel color={theme.primary}> Password </FormLabel>
         <InputGroup>
           <Input
             type={show ? "text" : "password"}
+            borderColor={theme.tertiary}
             placeholder="Your secret weapon?"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
 
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={passwordHiddingHandler}>
+            <Button
+              h="1.75rem"
+              size="sm"
+              onClick={passwordHiddingHandler}
+              bg={theme.light}
+              color={theme.primary}
+            >
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
@@ -109,17 +118,22 @@ const Login = () => {
       </FormControl>
 
       <Button
-        colorScheme="blue"
+        bg={theme.primary}
+        color="white"
         width="100%"
         style={{ marginTop: 15 }}
         onClick={onSubmitHandler}
         isLoading={loading}
+        _hover={{ bg: theme.tertiary }}
       >
         Login
       </Button>
+
       <Button
         variant="solid"
-        colorScheme="red"
+        bg="#E07A5F"
+        color={theme.primary}
+        _hover={{ bg: "#D86442" }}
         width="100%"
         onClick={() => {
           setEmail("guest@example.com");

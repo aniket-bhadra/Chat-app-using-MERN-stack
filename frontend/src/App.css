@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&family=Work+Sans:wght@300&display=swap');
-
+/* #092540; #53ded6 #418793 #efb638  #fde8c7*/
 .App{
     min-height: 100vh;
     display: flex;
-    background-image: url("./background.png");
+    /* background-image: url("./background.png"); */
+    background-image: linear-gradient(to right, #092540, #418793);
     background-size: cover;
     background-position: center;
 }

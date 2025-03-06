@@ -39,6 +39,7 @@ const server = app.listen(
 //called this function
 //pingTimeout means--how much time it will wait and then stop the connection to save the bandwidth, means in this case it waits for 60000ms or 60sec then it goes off,so for 60sec if any user did not send any message or something,it's gonna close the connection to save the bandwidth
 const io = require("socket.io")(server, {
+  //!! needs to remove or put for fields
   pingTimeout: 60000,
   cors: {
     origin: "http://localhost:3000",
@@ -90,6 +91,7 @@ io.on("connection", (socket) => {
 
   //cleanup the socket otherwise it will consume alot of bandwidth, if we we leave it,
 
+  //! update proper disconnection
   socket.off("setup", () => {
     console.log("USER DISCONNECTED!");
     socket.leave(userData._id);

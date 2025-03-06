@@ -13,6 +13,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import AvatarPicker from "../AvatarPicker/AvatarPicker";
+import theme from "../../constants/theme";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -105,31 +106,40 @@ const Signup = () => {
   return (
     <VStack spacing="5px">
       <FormControl id="name" isRequired>
-        <FormLabel> Name </FormLabel>
+        <FormLabel color={theme.primary}> Name </FormLabel>
         <Input
           placeholder="What should we call you?"
+          borderColor={theme.tertiary}
           onChange={(e) => setName(e.target.value)}
         />
       </FormControl>
       <FormControl id="email" isRequired>
-        <FormLabel> Email </FormLabel>
+        <FormLabel color={theme.primary}> Email </FormLabel>
         <Input
           placeholder="Your email handle"
+          borderColor={theme.tertiary}
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
 
       <FormControl id="password" isRequired>
-        <FormLabel> Password </FormLabel>
+        <FormLabel color={theme.primary}> Password </FormLabel>
         <InputGroup>
           <Input
             type={show ? "text" : "password"}
             placeholder="Your secret weapon?"
+            borderColor={theme.tertiary}
             onChange={(e) => setPassword(e.target.value)}
           />
 
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={passwordHiddingHandler}>
+            <Button
+              h="1.75rem"
+              size="sm"
+              bg={theme.light}
+              color={theme.primary}
+              onClick={passwordHiddingHandler}
+            >
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
@@ -137,16 +147,23 @@ const Signup = () => {
       </FormControl>
 
       <FormControl id="confirmPassword" isRequired>
-        <FormLabel> Confirm Password </FormLabel>
+        <FormLabel color={theme.primary}> Confirm Password </FormLabel>
         <InputGroup size="md">
           <Input
             type={show ? "text" : "password"}
+            borderColor={theme.tertiary}
             placeholder="Type it again to be sure!"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
 
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={passwordHiddingHandler}>
+            <Button
+              h="1.75rem"
+              size="sm"
+              bg={theme.light}
+              color={theme.primary}
+              onClick={passwordHiddingHandler}
+            >
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
@@ -163,8 +180,11 @@ const Signup = () => {
         style={{ marginTop: 15 }}
         onClick={onSubmitHandler}
         isLoading={loading}
+        bg={theme.primary}
+        color="white"
+        _hover={{ bg: theme.tertiary }}
       >
-        Sign Up
+        Create Account
       </Button>
     </VStack>
   );

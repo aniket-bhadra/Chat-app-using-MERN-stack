@@ -19,6 +19,8 @@ import {
   Tooltip,
   useDisclosure,
   useToast,
+  Flex,
+  Image,
 } from "@chakra-ui/react";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +32,8 @@ import ProfileModal from "./ProfileModal";
 import ChatLodaing from "../ChatLodaing";
 import UserListItem from "../UserAvatar/UserListItem";
 import { getSender } from "../../config/ChatLogics";
+
+import theme from "../../constants/theme";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -106,10 +110,7 @@ const SideDrawer = () => {
 
       const { data } = await axios.post("/api/chat", { userId }, config);
 
-      //if the chat is not there in our chat state, which we fetching inside MyChats--then append it upfront
-
       if (!chats.find((chat) => chat._id === data._id)) {
-        //* revisit the condition
         setChats([data, ...chats]);
       }
 
@@ -133,13 +134,19 @@ const SideDrawer = () => {
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        bg="white"
+        bg={theme.primary}
         width="100%"
-        padding="5px 10px 5px 10px"
-        borderWidth="5px"
+        padding="12px 20px"
+        color="white"
+        boxShadow="0 2px 10px rgba(0,0,0,0.1)"
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" onClick={onOpen}>
+          <Button
+            variant="ghost"
+            onClick={onOpen}
+            color="white"
+            _hover={{ bg: `${theme.tertiary}` }}
+          >
             <i className="fas fa-search"></i>
             <Text display={{ base: "none", md: "flex" }} px="4">
               Search User
@@ -147,20 +154,36 @@ const SideDrawer = () => {
           </Button>
         </Tooltip>
 
-        <Text fontSize="2xl" fontFamily="Work sans">
-          Talk2Owl
-        </Text>
-        <div>
+        <Image
+          src="/logo-nobg.png"
+          alt="Talk2Owl Logo"
+          height="40px"
+          width="50px"
+          objectFit="cover"
+          transform="scale(1.5)"
+        />
+
+        <Flex>
           <Menu>
-            <MenuButton padding={1}>
+            <MenuButton
+              padding={1}
+              color="white"
+              _hover={{ color: theme.secondary }}
+            >
               <NotificationBadge
                 count={notifications.length}
                 effect={Effect.SCALE}
+                style={{ backgroundColor: theme.accent }}
               />
-              <BellIcon fontSize="2xl" m={1} />
+              <BellIcon fontSize="2xl" m={1} color={theme.orange2} />
             </MenuButton>
 
-            <MenuList pl={3}>
+            <MenuList
+              pl={3}
+              bg="white"
+              color={theme.primary}
+              borderColor={theme.tertiary}
+            >
               {!notifications.length && "No New Messages"}
               {notifications.map((notification) => (
                 <MenuItem
@@ -171,13 +194,11 @@ const SideDrawer = () => {
                     );
 
                     if (!recevingMessageChat) {
-                      // add a jsx which says--oops! sorry chat not found, try creating the chat with ${notification.sender} if it is groupChat-- sorry chat not found, try to contact the groupAdmin of${notification.chat.chatName}
                       return;
                     }
 
                     setSelectedChat(recevingMessageChat);
 
-                    //addd filter logic
                     setNotifications((existingNotifications) =>
                       existingNotifications.filter(
                         (existingNotification) =>
@@ -185,6 +206,7 @@ const SideDrawer = () => {
                       )
                     );
                   }}
+                  _hover={{ bg: theme.light, color: theme.primary }}
                 >
                   {notification.chat.isGroupChat
                     ? `New Message in ${notification.chat.chatName}`
@@ -198,41 +220,77 @@ const SideDrawer = () => {
           </Menu>
 
           <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+            <MenuButton
+              as={Button}
+              rightIcon={<ChevronDownIcon />}
+              ml={4}
+              bg={theme.tertiary}
+              color="white"
+              _hover={{ bg: theme.secondary }}
+              _active={{ bg: theme.secondary }}
+            >
               <Avatar
                 size="sm"
                 cursor="pointer"
                 name={user.name}
                 src={user.pic}
+                border={`2px solid ${theme.light}`}
               />
             </MenuButton>
 
-            <MenuList>
+            <MenuList
+              bg="white"
+              color={theme.primary}
+              borderColor={theme.tertiary}
+            >
               <ProfileModal user={user}>
-                <MenuItem>My Profile</MenuItem>
+                <MenuItem _hover={{ bg: theme.light, color: theme.primary }}>
+                  My Profile
+                </MenuItem>
               </ProfileModal>
 
               <MenuDivider />
-              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+              <MenuItem
+                onClick={logoutHandler}
+                _hover={{ bg: theme.orange, color: "white" }}
+              >
+                Logout
+              </MenuItem>
             </MenuList>
           </Menu>
-        </div>
+        </Flex>
       </Box>
 
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
+        <DrawerContent bg="white" color={theme.primary}>
+          <DrawerHeader
+            borderBottomWidth="1px"
+            borderColor={theme.light}
+            bg={theme.primary}
+            color="white"
+          >
+            Search Users
+          </DrawerHeader>
 
           <DrawerBody>
-            <Box display="flex" paddingBottom={2}>
+            <Box display="flex" paddingBottom={4} paddingTop={4}>
               <Input
                 placeholder="Search by name or email"
                 mr={2}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                borderColor={theme.tertiary}
+                _focus={{ borderColor: theme.secondary }}
               />
-              <Button onClick={handleSearch}>Go</Button>
+              <Button
+                onClick={handleSearch}
+                bg={theme.secondary}
+                color={theme.primary}
+                _hover={{ bg: theme.orange }}
+              >
+                Go
+              </Button>
             </Box>
 
             {loading ? (
@@ -247,7 +305,14 @@ const SideDrawer = () => {
               ))
             )}
 
-            {loadingChat && <Spinner ml="auto" display="flex" />}
+            {loadingChat && (
+              <Spinner
+                ml="auto"
+                display="flex"
+                color={theme.secondary}
+                thickness="3px"
+              />
+            )}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

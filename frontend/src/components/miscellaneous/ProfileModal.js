@@ -14,6 +14,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
+import theme from "../../constants/theme";
 
 const ProfileModal = ({ user, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -31,7 +32,12 @@ const ProfileModal = ({ user, children }) => {
 
       <Modal size="lg" isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent height="410px">
+        <ModalContent
+          height="410px"
+          bg={theme.primary}
+          color="white"
+          borderRadius="10px"
+        >
           <ModalHeader
             fontSize="40px"
             fontFamily="Work sans"
@@ -40,7 +46,7 @@ const ProfileModal = ({ user, children }) => {
           >
             {user.name}
           </ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton color={theme.orange2} />
           <ModalBody
             display="flex"
             flexDir="column"
@@ -52,6 +58,7 @@ const ProfileModal = ({ user, children }) => {
               boxSize="150px"
               src={user.pic}
               alt="profile pic"
+              border={`3px solid ${theme.accent}`}
             />
             <Text
               fontSize={{ base: "28px", md: "30px" }}
@@ -62,7 +69,13 @@ const ProfileModal = ({ user, children }) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button
+              bg={theme.orange2}
+              color={theme.primary}
+              mr={3}
+              _hover={{ color: theme.light }}
+              onClick={onClose}
+            >
               Close
             </Button>
           </ModalFooter>

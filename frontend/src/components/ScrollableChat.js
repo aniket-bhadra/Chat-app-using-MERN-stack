@@ -18,7 +18,7 @@ const ScrollableChat = ({ messages }) => {
       {messages &&
         messages.map((m, i) => (
           <Box
-            key={m._id}
+            key={`${m._id}+--${i}`}
             display="flex"
             alignItems="flex-end"
             marginBottom={isSameUser(messages, m, i) ? 1 : 3}

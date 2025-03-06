@@ -11,14 +11,14 @@ const ScrollableChat = ({ messages }) => {
   const { user } = useChatState();
   const lastMyMessageSendByLoggeInUser = [...messages]
     .reverse()
-    .find((msg) => msg.sender._id === user._id);
+    .find((msg) => msg.sender && msg.sender._id === user._id);
 
   return (
     <ScrollableFeed>
       {messages &&
         messages.map((m, i) => (
           <Box
-            key={`${m._id}+--${i}`}
+            key={`${m?._id}+--${i}`}
             display="flex"
             alignItems="flex-end"
             marginBottom={isSameUser(messages, m, i) ? 1 : 3}
@@ -68,7 +68,6 @@ const ScrollableChat = ({ messages }) => {
                 position="relative"
               >
                 <Text fontSize="md">{m.content}</Text>
-                {/* Removed recipient name display */}
               </Box>
 
               <Flex
@@ -85,7 +84,8 @@ const ScrollableChat = ({ messages }) => {
                       Sending...
                     </Text>
                   </Flex>
-                ) : m._id === lastMyMessageSendByLoggeInUser._id &&
+                ) : lastMyMessageSendByLoggeInUser &&
+                  m._id === lastMyMessageSendByLoggeInUser._id &&
                   m.sender._id === user._id ? (
                   <Flex alignItems="center">
                     <FaCheck color={theme.secondary} size={14} />

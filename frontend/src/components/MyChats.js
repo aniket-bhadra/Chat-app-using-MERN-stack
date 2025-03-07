@@ -8,13 +8,15 @@ import {
   Flex,
   Heading,
   Divider,
+  Avatar,
+  AvatarBadge,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import axios from "axios";
 
 import { useChatState } from "../Context/ChatProvider";
 import ChatLodaing from "./ChatLodaing";
-import { getSender } from "../config/ChatLogics";
+import { getSender, getSenderFull } from "../config/ChatLogics";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 import theme from "../constants/theme";
 
@@ -35,7 +37,6 @@ const MyChats = ({ fetchAgain }) => {
       };
 
       const { data } = await axios.get("/api/chat", config);
-      // console.log(data);
       setChats(data);
       setMyChatLoading(false);
     } catch (error) {
@@ -129,7 +130,7 @@ const MyChats = ({ fetchAgain }) => {
                 color={selectedChat === chat ? "white" : theme.primary}
                 px={4}
                 py={3}
-                borderRadius="3xl"
+                borderRadius="lg"
                 boxShadow="0 1px 3px rgba(0,0,0,0.1)"
                 transition="all 0.2s ease"
                 _hover={{
@@ -143,53 +144,114 @@ const MyChats = ({ fetchAgain }) => {
                 position="relative"
                 overflow="hidden"
               >
-                <Flex alignItems="center" justifyContent="space-between">
-                  <Text fontWeight="500" isTruncated>
-                    {!chat.isGroupChat
-                      ? getSender(loggedUser, chat.users)
-                      : chat.chatName}
-                  </Text>
-                  {chat.isGroupChat && (
-                    <Box
-                      as="span"
-                      fontSize="xs"
-                      px={2}
-                      py={1}
-                      borderRadius="full"
-                      bg={
+                <Flex alignItems="center" gap={3}>
+                  {/* Avatar positioning */}
+                  {!chat.isGroupChat ? (
+                    <Avatar
+                      size="md"
+                      name={getSenderFull(loggedUser, chat.users).name}
+                      src={getSenderFull(loggedUser, chat.users).pic}
+                      borderWidth="2px"
+                      borderColor={
                         selectedChat === chat
-                          ? "rgba(255,255,255,0.2)"
-                          : "#efb63899"
+                          ? "rgba(255,255,255,0.8)"
+                          : theme.accent
                       }
-                      color={selectedChat === chat ? "white" : theme.primary}
-                      fontWeight="bold"
+                    />
+                  ) : (
+                    <Avatar
+                      size="md"
+                      name={chat.chatName}
+                      src="https://cdn.pixabay.com/photo/2016/11/14/17/39/group-1824145_1280.png"
+                      borderWidth="2px"
+                      borderColor={
+                        selectedChat === chat
+                          ? "rgba(255,255,255,0.8)"
+                          : theme.accent
+                      }
                     >
-                      Group
-                    </Box>
+                      {chat.users && chat.users.length > 0 && (
+                        <AvatarBadge
+                          boxSize="1.25em"
+                          bg={theme.accent}
+                          borderColor="white"
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          <Text fontSize="xs" fontWeight="bold" color="white">
+                            {chat.users.length}
+                          </Text>
+                        </AvatarBadge>
+                      )}
+                    </Avatar>
                   )}
+
+                  {/* Chat information */}
+                  <Box flex="1" overflow="hidden">
+                    <Flex
+                      justifyContent="space-between"
+                      alignItems="center"
+                      mb={1}
+                    >
+                      <Text
+                        fontWeight="600"
+                        fontSize="sm"
+                        isTruncated
+                        maxWidth="70%"
+                      >
+                        {!chat.isGroupChat
+                          ? getSenderFull(loggedUser, chat.users).name
+                          : chat.chatName}
+                      </Text>
+
+                      {chat.isGroupChat && (
+                        <Box
+                          as="span"
+                          fontSize="2xs"
+                          px={2}
+                          py={1}
+                          borderRadius="full"
+                          bg={
+                            selectedChat === chat
+                              ? "rgba(255,255,255,0.2)"
+                              : "#efb63899"
+                          }
+                          color={
+                            selectedChat === chat ? "white" : theme.primary
+                          }
+                          fontWeight="bold"
+                        >
+                          Group
+                        </Box>
+                      )}
+                    </Flex>
+
+                    {chat.latestMessage && (
+                      <Text
+                        fontSize="xs"
+                        color={
+                          selectedChat === chat
+                            ? "rgba(255,255,255,0.8)"
+                            : "gray.500"
+                        }
+                        isTruncated
+                      >
+                        {chat.latestMessage.content.length > 50
+                          ? chat.latestMessage.content.substring(0, 49) + "..."
+                          : chat.latestMessage.content}
+                      </Text>
+                    )}
+                  </Box>
                 </Flex>
-                {chat.latestMessage && (
-                  <Text
-                    fontSize="xs"
-                    color={
-                      selectedChat === chat
-                        ? "rgba(255,255,255,0.8)"
-                        : "gray.500"
-                    }
-                    mt={1}
-                    isTruncated
-                  >
-                    {chat.latestMessage.content.length > 50
-                      ? chat.latestMessage.content.substring(0, 49) + "..."
-                      : chat.latestMessage.content}
-                  </Text>
-                )}
+
+                {/* Left accent border */}
                 <Box
                   position="absolute"
                   left="0"
                   top="0"
                   bottom="0"
-                  width="8px"
+                  width="4px"
                   bg={selectedChat === chat ? "white" : theme.accent}
                   opacity={selectedChat === chat ? 0.8 : 0.6}
                 ></Box>

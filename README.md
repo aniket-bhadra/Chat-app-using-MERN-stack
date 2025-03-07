@@ -33,13 +33,13 @@ _Access all your conversations with message previews and profile avatars in one 
 
 <img src="READMEASSETS/GIFs/signup.gif" alt="signup GIF" width="300"/>
 
-_Create an account or log in to start messaging instantly with other registered users._
+_From SignUp to Chat, Groups & Notifications – See It All in Action!._
 
 ### 💬 Real-Time Messaging
 
 <img src="READMEASSETS/GIFs/messaging.gif" alt="Messaging GIF" width="300"/>
 
-_Experience fluid conversations with real-time message delivery and typing indicators._
+_Real-Time Messaging in Action: Delivery, Notifications & Typing Live._
 
 ## 📷 Additional Screenshots
 

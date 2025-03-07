@@ -100,7 +100,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       setWhoIsTyping(user);
     });
     socket.on("stop typing", () => setIsTyping(false));
-  }, []);
+    return () => socket.disconnect();
+  }, [user]);
 
   useEffect(() => {
     fetchMessages();

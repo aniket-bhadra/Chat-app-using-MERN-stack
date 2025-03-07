@@ -14,6 +14,7 @@ import {
   InputRightElement,
   Button,
   Avatar,
+  AvatarGroup,
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { FaPaperPlane } from "react-icons/fa";
@@ -229,17 +230,38 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             borderRadius="lg"
             mb={4}
           >
-            <Flex alignItems="center">
+            <Flex alignItems="center" gap={3}>
               <IconButton
                 display={{ base: "flex", md: "none" }}
                 icon={<ArrowBackIcon />}
                 onClick={() => setSelectedChat("")}
-                mr={3}
+                mr={1}
                 size="sm"
                 colorScheme="whiteAlpha"
                 variant="ghost"
                 _hover={{ bg: "rgba(255, 255, 255, 0.2)" }}
               />
+
+              {/* Avatar for header - shows profile photo */}
+              {!selectedChat.isGroupChat ? (
+                <Avatar
+                  size="md"
+                  name={getSenderFull(user, selectedChat.users).name}
+                  src={getSenderFull(user, selectedChat.users).pic}
+                  borderWidth="2px"
+                  borderColor="white"
+                  mr={2}
+                />
+              ) : (
+                <Avatar
+                  size="md"
+                  name={selectedChat.chatName}
+                  src="https://cdn.pixabay.com/photo/2016/11/14/17/39/group-1824145_1280.png"
+                  borderWidth="2px"
+                  borderColor="white"
+                  mr={2}
+                />
+              )}
 
               <Heading
                 fontSize={{ base: "xl", md: "2xl" }}
@@ -310,7 +332,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     borderColor={theme.accent}
                     mr={1}
                   />
-                  <Text fontSize="xs" color="gray.600" mr={1}>{whoIsTyping.name}</Text>
+                  <Text fontSize="xs" color="gray.600" mr={1}>
+                    {whoIsTyping.name}
+                  </Text>
                   <Box display="inline-flex" alignItems="center">
                     <TypingAnimation />
                   </Box>
@@ -381,7 +405,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               position="absolute"
               top="50%"
               left="50%"
-              transform="translate(-50%, -50%) scale(1.3)" // Center using transform
+              transform="translate(-50%, -50%) scale(1.3)"
               height="120px"
               objectFit="contain"
             />

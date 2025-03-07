@@ -19,6 +19,7 @@ import axios from "axios";
 import { useChatState } from "../../Context/ChatProvider";
 import UserListItem from "../UserAvatar/UserListItem";
 import UserBadgeItem from "../UserAvatar/UserBadgeItem";
+import theme from "../../constants/theme";
 
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -155,13 +156,14 @@ const GroupChatModal = ({ children }) => {
           >
             Create Group Chat
           </ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton color={theme.orange} />
           <ModalBody display="flex" flexDir="column" alignItems="center">
             <FormControl>
               <Input
                 placeholder="Chat Name"
                 mb={3}
                 onChange={(e) => setGroupChatName(e.target.value)}
+                focusBorderColor={theme.tertiary}
               />
             </FormControl>
 
@@ -170,6 +172,7 @@ const GroupChatModal = ({ children }) => {
                 placeholder="Add Uers eg: simran, juhi, rohit"
                 mb={1}
                 onChange={(e) => handleSearch(e.target.value)}
+                focusBorderColor={theme.tertiary}
               />
             </FormControl>
             <Box w="100%" display="flex" flexWrap="wrap">
@@ -197,7 +200,11 @@ const GroupChatModal = ({ children }) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" onClick={handleSubmit}>
+            <Button
+              color={theme.primary}
+              backgroundColor={theme.orange}
+              onClick={handleSubmit}
+            >
               Create Chat
             </Button>
           </ModalFooter>

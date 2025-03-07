@@ -257,7 +257,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
           >
             {selectedChat.chatName}
           </ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton color={theme.orange} />
           <ModalBody>
             <Box w="100%" display="flex" flexWrap="wrap" pb={3}>
               {selectedChat.users.map((user) => (
@@ -276,6 +276,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
                 mb={3}
                 value={groupChatName}
                 onChange={(e) => setGroupChatName(e.target.value)}
+                focusBorderColor={theme.tertiary}
               />
 
               <Button
@@ -294,6 +295,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
                 placeholder="Add User to group"
                 mb={1}
                 onChange={(e) => handleSearch(e.target.value)}
+                focusBorderColor={theme.tertiary}
               />
             </FormControl>
 
@@ -316,7 +318,11 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
             <Button onClick={onClose} mr={5}>
               Cancel
             </Button>
-            <Button colorScheme="red" onClick={() => handleRemove(user)}>
+            <Button
+              color={theme.primary}
+              backgroundColor={theme.orange}
+              onClick={() => handleRemove(user)}
+            >
               Leave Group
             </Button>
           </ModalFooter>

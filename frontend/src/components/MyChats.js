@@ -237,9 +237,16 @@ const MyChats = ({ fetchAgain }) => {
                         }
                         isTruncated
                       >
-                        {chat.latestMessage.content.length > 50
-                          ? chat.latestMessage.content.substring(0, 49) + "..."
-                          : chat.latestMessage.content}
+                        {` ${
+                          chat.latestMessage.sender._id === user._id
+                            ? "You"
+                            : chat.latestMessage.sender.name
+                        }: ${
+                          chat.latestMessage.content.length > 50
+                            ? chat.latestMessage.content.substring(0, 49) +
+                              "..."
+                            : chat.latestMessage.content
+                        }`}
                       </Text>
                     )}
                   </Box>

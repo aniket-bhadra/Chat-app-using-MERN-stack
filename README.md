@@ -4,18 +4,38 @@
   <img src="READMEASSETS/logo-modified.png" alt="Talk2Owl Logo" width="250"/>
 </p>
 
-_**Talk2Owl** – A sophisticated real-time messaging platform built with modern web technologies, offering seamless communication, interactive typing indicators, delivered indicators, and comprehensive notification systems in an elegant, responsive interface._
+**Talk2Owl** is a real-time messaging platform built and maintained as a production-style web application.
+It focuses on reliable real-time communication, clear state management, and a responsive, user-friendly interface across devices.
 
-## ✨ What This Project Does
+This project is actively maintained and designed to reflect real-world messaging system.
 
-**Talk2Owl** is a feature-rich chat application where users can connect and communicate in real time. The platform offers comprehensive messaging capabilities with instant message delivery confirmations and real-time typing indicators. Users can engage in one-on-one conversations or create group chats with multiple participants. The application provides a complete notification system to ensure users never miss important messages, even when they're not actively viewing a specific chat. With a clean, minimalist design, Talk2Owl prioritizes ease of use while maintaining a professional appearance across all devices.
+---
 
-## 🚀 Live Demo
+## 🚀 Live Deployment
 
-Experience the project in action:
+🌐 **Live URL:** [https://aniket-bhadra.github.io/](https://aniket-bhadra.github.io/)
 
-- 🌐 [Live Demo Link](https://your-demo-link.com)
-- 🎥 [Video Demo](https://your-video-demo-link.com)
+> The application is currently undergoing infrastructure updates.
+> The live deployment will be available soon.
+
+---
+
+## What the Project Does
+
+Talk2Owl enables users to communicate in real time through one-on-one and group conversations.
+
+The system implements:
+
+* Real-time bidirectional messaging using WebSockets
+* Message delivery acknowledgment handling
+* Typing indicators scoped per user and per conversation
+* Group chat creation with role-based permissions
+* Notification handling for inactive conversations
+* Responsive UI behavior across desktop and mobile
+
+The goal is to simulate real messaging platform behavior with clean separation between real-time events and REST-based data access.
+
+---
 
 ## 📸 Preview
 
@@ -23,7 +43,7 @@ Experience the project in action:
 
 <img src="READMEASSETS/chatPage.png" alt="Chat Dashboard" width="800"/>
 
-_Access all your conversations with message previews and profile avatars in one centralized interface._
+*A centralized view of conversations with message previews and user avatars.*
 
 ---
 
@@ -33,230 +53,225 @@ _Access all your conversations with message previews and profile avatars in one 
 
 <img src="READMEASSETS/GIFs/signup.gif" alt="signup GIF" width="300"/>
 
-_From SignUp to Chat, Groups & Notifications – See It All in Action!._
+*User registration, authentication, and initial chat access.*
 
 ### 💬 Real-Time Messaging
 
 <img src="READMEASSETS/GIFs/messaging.gif" alt="Messaging GIF" width="300"/>
 
-_Real-Time Messaging in Action: Delivery, Notifications & Typing Live._
+*Live messaging with delivery status, notifications, and typing indicators.*
+
+---
 
 ## 📷 Additional Screenshots
 
 ### SignUp Page
 
-<details>
-<summary>View Screenshot</summary>
+
 
 <img src="READMEASSETS/login.png" alt="SignUp Page" width="800"/>
 
-_Create a new account or sign in to access your conversations._
+*User authentication and account access.*
 
-</details>
+
 
 ### Chat Interface
 
-<details>
-<summary>View Screenshot</summary>
+
 
 <img src="READMEASSETS/chatting.png" alt="Chat Interface" width="800"/>
 
-_Clean, intuitive messaging interface with conversation history and real-time indicators._
+*Main messaging interface with conversation history and real-time updates.*
 
-</details>
+
 
 ### Group Chat Management
 
-<details>
-<summary>View Screenshot</summary>
+
 
 <img src="READMEASSETS/createGroupChat.png" alt="Group Chat Management" width="800"/>
 
-_Create and manage group conversations with multiple participants simultaneously._
+*Group creation and participant management.*
 
-</details>
+
 
 ### Update Group Chat
 
-<details>
-<summary>View Screenshot</summary>
 
-<img src="READMEASSETS/updateGroupChat.png" alt="Notification System" width="800"/>
 
-_Update group chat name, add or remove users, and manage group members based on admin privileges or user departure._
+<img src="READMEASSETS/updateGroupChat.png" alt="Update Group Chat" width="800"/>
 
-</details>
+*Admin-controlled group updates including member management.*
+
+
 
 ### User Search
 
-<details>
-<summary>View Screenshot</summary>
 
 <img src="READMEASSETS/search.png" alt="User Search" width="800"/>
 
-_Easily find and connect with other users through the intuitive search functionality._
+*Search and discover users to start conversations.*
 
-</details>
 
 ### Realtime Messaging
 
-<details>
-<summary>View Screenshot</summary>
+<img src="READMEASSETS/chattingRealtime.png" alt="Realtime Messaging" width="800"/>
 
-<img src="READMEASSETS/chattingRealtime.png" alt="Mobile View" width="800"/>
+*Live typing indicators and delivery acknowledgments.*
 
-_real-time messaging with typing indicators showing who is typing and delivered status for sent messages._
-
-</details>
 
 ### Mobile Responsive Design
 
-<details>
-<summary>View Screenshot</summary>
+
 
 <img src="READMEASSETS/mobile.png" alt="Mobile View" width="800"/>
 
-_Access all features seamlessly across any device with our fully responsive design._
+*Fully responsive layout optimized for mobile usage.*
 
-</details>
 
-## ✨ Features
+---
 
-- 🔑 **Authentication System**: Secure login and registration for user account management.
-- 💬 **Real-Time Messaging**: Instant message delivery between users with no refresh needed.
-- ⌨️ **Live Typing Indicators**: See when your friends are typing with user identification.
-- 🔔 **Comprehensive Notifications**: Receive alerts for new messages when not in active chat.
-- 👥 **Group Chat Functionality**: Create and participate in conversations with multiple users.
-- 👑 **Admin Controls**: Manage group membership, edit group names, and moderate conversations.
-- ✅ **Message Delivery Status**: Track whether messages have been successfully delivered.
-- 🔍 **User Search**: Find and connect with other registered users through search functionality.
-- 👤 **Profile Management**: View and manage personal profile information.
-- 📱 **Fully Responsive Design**: Seamless experience across desktop, tablet, and mobile devices.
-- 🎨 **Minimalist UI/UX**: Clean, intuitive interface that prioritizes ease of use.
-- 🚪 **Group Exit Options**: Leave groups or remove members (with admin privileges).
+## ✨ Core Features
+
+* **Authentication**
+
+  * JWT-based authentication
+  * Secure password hashing with bcrypt
+
+* **Real-Time Messaging**
+
+  * Socket.IO-based bi-directional communication
+  * Message delivery status tracking
+  * Live typing indicators
+
+* **Group Chats**
+
+  * Group creation and updates
+  * Admin-only controls
+  * Join and leave handling in real time
+
+* **Notifications**
+
+  * Alerts for new messages outside the active chat
+  * Unread message indicators
+
+* **User Experience**
+
+  * Minimal, clean UI
+  * Responsive layout across devices
+  * Scroll-aware message feeds
+
+---
 
 ## 🛠 Tech Stack
 
-### 🚀 Frontend
+### Frontend
 
-- **Framework**: React
-- **State Management**: Context API
-- **Networking**: Axios
-- **WebSocket**: Socket.IO for real-time communication
-- **Routing**: React Router DOM
-- **UI Components**: Chakra UI 
-- **Notifications**: react-notification-badge
-- **Scrolling**: react-scrollable-feed
+* React
+* Context API
+* Axios
+* Socket.IO Client
+* React Router DOM
+* Chakra UI
+* react-scrollable-feed
 
-### 🖥️ Backend
+### Backend
 
-- **Server**: Node.js with Express.js
-- **Database**: MongoDB (Mongoose ORM)
-- **Authentication**: JWT with bcrypt for password hashing
-- **Real-Time Communication**: Socket.IO
+* Node.js
+* Express.js
+* MongoDB (Mongoose)
+* JWT authentication
+* bcrypt
+* Socket.IO
 
+---
 
-### 🚢 Deployment
+## 🧩 Architecture Overview
 
-- **Frontend**: Vercel 
-- **Backend**: Render 
+* WebSockets handle real-time events such as:
 
+  * Message delivery
+  * Typing state
+  * Group updates
+* REST APIs manage:
 
-## 🔧 Installation
+  * Authentication
+  * User data
+  * Chat metadata
+* MongoDB stores users, chats, and message history
+* Frontend maintains optimistic UI updates synchronized with backend state
 
-1. Clone the repository and navigate to the project folder:
+---
 
-   ```bash
-   git clone https://github.com/yourusername/talk2owl.git
-   cd talk2owl
-   ```
+## 🔧 Local Setup
 
-2. Install dependencies for both frontend and backend:
+### Prerequisites
 
-   ```bash
-   cd client
-   npm install
-   ```
+* Node.js
+* MongoDB
 
-   Open a new terminal:
+### Installation
 
-   ```bash
-   cd server
-   npm install
-   ```
+```bash
+git clone https://github.com/yourusername/talk2owl.git
+cd talk2owl
+```
 
-3. Start the development servers:
+Frontend:
 
-   Backend:
+```bash
+cd client
+npm install
+```
 
-   ```bash
-   npm run dev
-   ```
+Backend:
 
-   Frontend:
+```bash
+cd server
+npm install
+```
 
-   ```bash
-   npm start
-   ```
+### Run Locally
 
-## 🎮 Usage
+Backend:
 
-- The app will be available locally at `http://localhost:3000`.
+```bash
+npm run dev
+```
 
-Accessing the Backend:
+Frontend:
 
-- Visit http://localhost:5000/ in your browser to check the API.
+```bash
+npm start
+```
+
+* Frontend: [http://localhost:3000](http://localhost:3000)
+* Backend: [http://localhost:5000](http://localhost:5000)
+
+---
+
+## 🗺 Roadmap
+
+* File and media sharing
+* Message search within conversations
+* Improved notification controls
+* Performance optimizations for large group chats
+
+---
 
 ## 🤝 Contributing
 
-We welcome contributions! Please follow these steps:
+Contributions are welcome.
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Commit clear, focused changes
+4. Open a pull request with context
+
+---
 
 ## 📬 Contact
 
-- Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
-- Email - your.email@example.com
-- Project Link: [https://github.com/yourusername/talk2owl](https://github.com/yourusername/talk2owl)
+**Maintainer:** Aniket
+GitHub: [https://github.com/aniket-bhadra](https://github.com/aniket-bhadra)
 
-## 📊 Project Metrics
-
-![Total Commits](https://img.shields.io/github/commit-activity/t/yourusername/talk2owl?style=for-the-badge&logo=github&labelColor=black&color=blue)&nbsp;&nbsp;&nbsp;&nbsp;
-![Last Commit](https://img.shields.io/github/last-commit/yourusername/talk2owl?style=for-the-badge&logo=github&labelColor=black&color=green)&nbsp;&nbsp;&nbsp;&nbsp;
-![Repo Size](https://img.shields.io/github/repo-size/yourusername/talk2owl?style=for-the-badge&logo=github&labelColor=black&color=orange)&nbsp;&nbsp;&nbsp;&nbsp;
-![Languages Count](https://img.shields.io/github/languages/count/yourusername/talk2owl?style=for-the-badge&logo=github&labelColor=black&color=red)&nbsp;&nbsp;&nbsp;&nbsp;
-![Open Issues](https://img.shields.io/github/issues/yourusername/talk2owl?style=for-the-badge&logo=github&labelColor=black&color=purple)
-
-## 💻 Project Details
-
-![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Mobile-4A90E2?style=for-the-badge&logo=googlechrome&labelColor=black)&nbsp;&nbsp;&nbsp;&nbsp;
-![Dependencies](https://img.shields.io/badge/Dependencies-14-CB3837?style=for-the-badge&logo=npm&labelColor=black)&nbsp;&nbsp;&nbsp;&nbsp;
-![Version](https://img.shields.io/badge/Version-1.0.0-FFA500?style=for-the-badge&logo=semver&labelColor=black)&nbsp;&nbsp;&nbsp;&nbsp;
-![Status](https://img.shields.io/badge/Status-Deployed-28a745?style=for-the-badge&logo=git&labelColor=black)&nbsp;&nbsp;&nbsp;&nbsp;
-
-### 📊 Project Overview
-
-| 📌 **Metric**          | 📊 **Value**     |
-| ---------------------- | ---------------- |
-| 📈 **Total Commits**   | 952              |
-| 🕒 **Last Commit**     | 2024-03-01       |
-| 💾 **Repo Size**       | 14.2 MB          |
-| 📝 **Languages Count** | 3                |
-| 💡 **Top Language**    | JavaScript - 68% |
-| ❓ **Open Issues**     | 3                |
-| 🌐 **Platform**        | Web, Mobile      |
-| 📦 **Dependencies**    | 14               |
-| 📅 **Version**         | 1.0.0            |
-| 🚀 **Status**          | Deployed         |
-
-## 🚀 Upcoming Future Feature Progress
-
-- 📎 **File & Media Sharing**: Support for sharing documents, images, and other media ░░░░░░░░░░░░░░░░░░░░░░ 0%
-
-- 🔍 **Message Search**: Search functionality within conversations ▓░░░░░░░░░░░░░░░░░░░░░ 10%
-
-Made with ❤️ by [Your Name](https://github.com/yourusername)

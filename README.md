@@ -13,7 +13,7 @@ This project is actively maintained and designed to reflect real-world messaging
 
 ## 🚀 Live Deployment
 
-🌐 **Live URL:** [https://aniket-bhadra.github.io/](https://aniket-bhadra.github.io/)
+🌐 **Live URL:** [Live Demo Link](https://aniket-bhadra.github.io/)
 
 > The application is currently undergoing infrastructure updates.
 > The live deployment will be available soon.
@@ -273,5 +273,6 @@ Contributions are welcome.
 ## 📬 Contact
 
 **Maintainer:** Aniket
-GitHub: [https://github.com/aniket-bhadra](https://github.com/aniket-bhadra)
+- linkedin - [https://www.linkedin.com/in/aniket-bhadra/](https://www.linkedin.com/in/aniket-bhadra/)
+- Email - aniketbhadra2@gmail.com
 
